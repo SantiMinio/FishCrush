@@ -27,7 +27,7 @@ public class FishingManager : MonoBehaviour
     [SerializeField] float initialPositiveSpeed = 5;
     [SerializeField] float maxNegativeSpeed = -10;
     [SerializeField] float initialNegativeSpeed = 5;
-    float currentAceleration = 0;
+    public float currentAceleration = 0;
     float barCurrentPos;
     float minPos;
     float maxPos;
@@ -114,9 +114,9 @@ public class FishingManager : MonoBehaviour
     {
         if (moveBar)
         {
-            if(currentAceleration < maxPositiveSpeed)
+            if (currentAceleration < maxPositiveSpeed)
             {
-                currentAceleration += Time.deltaTime+ initialPositiveSpeed * aceleration;
+                currentAceleration += Time.deltaTime * aceleration;
                 if (currentAceleration > maxPositiveSpeed) currentAceleration = maxPositiveSpeed;
             }
         }
@@ -124,14 +124,14 @@ public class FishingManager : MonoBehaviour
         {
             if (currentAceleration > maxNegativeSpeed)
             {
-                currentAceleration -= Time.deltaTime + initialNegativeSpeed * desaceleration;
+                currentAceleration += Time.deltaTime * desaceleration;
                 if (currentAceleration < maxNegativeSpeed) currentAceleration = maxNegativeSpeed;
             }
         }
 
         barCurrentPos += Time.deltaTime * currentAceleration;
 
-        if (barCurrentPos > maxPos) barCurrentPos = maxPos;
-        else if (barCurrentPos < minPos) barCurrentPos = minPos;
+        if (barCurrentPos > maxPos) { barCurrentPos = maxPos; currentAceleration = 0; }
+        else if (barCurrentPos < minPos) {barCurrentPos = minPos; currentAceleration = 0; }
     }
 }

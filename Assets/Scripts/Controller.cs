@@ -18,6 +18,10 @@ public class Controller : MonoBehaviour
     {
         GameManager.instance.eventManager.SubscribeToEvent(GameEvents.FishInBait, Baiting);
         GameManager.instance.eventManager.SubscribeToEvent(GameEvents.FishingOver, FishingOver);
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -transform.up,out hit, 8000, 1 << 10))
+            startPos = hit.point;
     }
 
     private void Update()
@@ -53,7 +57,6 @@ public class Controller : MonoBehaviour
 
                     if(Physics.Raycast(ray, 8000))
                     {
-                        startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                         touchInTarget = true;
                         UIManager.instance.ActivateArrow(true);
                     }
@@ -61,7 +64,13 @@ public class Controller : MonoBehaviour
 
                 if (touchInTarget)
                 {
-                    Vector3 dir = startPos - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    Vector3 pos = Vector3.zero;
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, 8000, 1<<10))
+                        pos = hit.point;
+
+                    Vector3 dir = startPos - pos;
                     dir = new Vector3(dir.x, 0, dir.z);
                     if(dir != Vector3.zero) transform.forward = dir.normalized;
                     Vector3 temp = dir * armPotencyMultiplier;

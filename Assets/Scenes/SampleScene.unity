@@ -148,7 +148,7 @@ TerrainCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 24389154}
   m_Material: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: 6e803065d4b36f943835c1d354b0a9f4, type: 2}
   m_EnableTreeColliders: 0
 --- !u!218 &24389156
@@ -840,7 +840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &817734738
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -895,13 +895,39 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 817734736}
-  m_LocalRotation: {x: 0.45244458, y: -0, z: -0, w: 0.89179254}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &844362276 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4033499257110295718, guid: 72fb46b572ff08342b6fc9daabc3126c,
+    type: 3}
+  m_PrefabInstance: {fileID: 870904265}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &844362281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844362276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1acf4241b044aa244b5f05f785b8d7a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myWaypoints: []
+  radiousToSearchWaypoints: 2
+  waypointsAmmount: 4
+  timeToNextWaypoint: 1
+  mask:
+    serializedVersion: 2
+    m_Bits: 1
+  index: 0
 --- !u!1001 &870904265
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -909,6 +935,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4033499257110295717, guid: 72fb46b572ff08342b6fc9daabc3126c,
+        type: 3}
+      propertyPath: moveModule
+      value: 
+      objectReference: {fileID: 844362281}
+    - target: {fileID: 4033499257110295717, guid: 72fb46b572ff08342b6fc9daabc3126c,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4033499257110295718, guid: 72fb46b572ff08342b6fc9daabc3126c,
         type: 3}
       propertyPath: m_Name
@@ -983,6 +1019,11 @@ PrefabInstance:
       propertyPath: speedOutOfCombat
       value: 3.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5210850855762514762, guid: 27111b8cf01ec9a4ca39ce623d34c156,
+        type: 3}
+      propertyPath: moveModule
+      value: 
+      objectReference: {fileID: 1033964441}
     - target: {fileID: 5406431007670193946, guid: 27111b8cf01ec9a4ca39ce623d34c156,
         type: 3}
       propertyPath: m_RootOrder
@@ -1158,6 +1199,32 @@ Transform:
   m_Father: {fileID: 963194228}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1033964436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 535322511545724834, guid: 27111b8cf01ec9a4ca39ce623d34c156,
+    type: 3}
+  m_PrefabInstance: {fileID: 883876588}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1033964441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033964436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd0d20a669b033d479881d5eb374dee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myWaypoints: []
+  spacingBetweenWaypoints: 2
+  radious: 3
+  timeToNextWaypoint: 0
+  mask:
+    serializedVersion: 2
+    m_Bits: 1
+  index: 0
 --- !u!1001 &1056025517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2350,7 +2417,7 @@ MeshCollider:
   m_GameObject: {fileID: 1709116396}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30

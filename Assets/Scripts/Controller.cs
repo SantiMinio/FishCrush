@@ -9,6 +9,9 @@ public class Controller : MonoBehaviour
     bool touchInTarget;
     bool fishing;
     bool fishingRoad;
+    bool inAnim;
+
+    [SerializeField] Animator anim = null;
 
     [SerializeField] float armPotencyMultiplier = 2;
     [SerializeField] float minRange = 1;
@@ -42,6 +45,7 @@ public class Controller : MonoBehaviour
 
     void Inputs()
     {
+        if (inAnim) return;
         if (fishing)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0)) FishingManager.instance.moveBar = true;
@@ -59,6 +63,7 @@ public class Controller : MonoBehaviour
                     {
                         touchInTarget = true;
                         UIManager.instance.ActivateArrow(true);
+                        anim.SetBool("Casting", true);
                     }
                 }
 
@@ -80,6 +85,7 @@ public class Controller : MonoBehaviour
 
                     if (Input.GetKeyUp(KeyCode.Mouse0))
                     {
+                        anim.SetBool("Casting", false);
                         touchInTarget = false;
                         fishingRoad = true;
                         Vector3 trueDir = transform.forward * trueMultiplier;
@@ -90,7 +96,7 @@ public class Controller : MonoBehaviour
             }
             else
             {
-                if (Input.GetKey(KeyCode.Mouse0))
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     GameManager.instance.GrabBait();
                     fishingRoad = false;

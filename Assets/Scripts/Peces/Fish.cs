@@ -8,6 +8,7 @@ public abstract class Fish : MonoBehaviour, IUpdate
     protected float maxPos;
     public float currentPos;
     bool inBait;
+    bool captured;
     float timerInBait;
 
     [SerializeField] float speedOutOfCombat = 2;
@@ -49,15 +50,23 @@ public abstract class Fish : MonoBehaviour, IUpdate
         }
         else
         {
-            moveModule.Move();
+            if (!captured) moveModule.Move();
         }
     }
 
     public void Move(Vector3 baitPos)
     {
-         transform.forward = Vector3.Slerp(transform.forward, (baitPos - transform.position).normalized, Time.deltaTime * rotationSpeed);
-         transform.position += transform.forward * speedOutOfCombat * Time.deltaTime;
+        transform.forward = Vector3.Slerp(transform.forward, (baitPos - transform.position).normalized, Time.deltaTime * rotationSpeed);
+        transform.position += transform.forward * speedOutOfCombat * Time.deltaTime;
         inBait = true;
+        timerInBait = 0;
+    }
+
+    public void FishCaptured(bool b)
+    {
+        captured = b;
+
+        inBait = false;
         timerInBait = 0;
     }
 

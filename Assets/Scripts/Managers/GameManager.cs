@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour, IUpdate
             {
                 item.Move(baitObject.transform.position);
 
-                if (Vector3.Distance(item.transform.position, baitObject.transform.position) < captureRadious) fishOnBait.Add(item);
+                if (Vector3.Distance(item.transform.position, baitObject.transform.position) < captureRadious) { fishOnBait.Add(item); item.FishCaptured(true); }
             }
         }
     }
@@ -83,6 +83,10 @@ public class GameManager : MonoBehaviour, IUpdate
         else
             baitObject.SetActive(false);
 
+        for (int i = 0; i < fishOnBait.Count; i++)
+        {
+            fishOnBait[i].FishCaptured(false);
+        }
         fishOnBait.Clear();
     }
 

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IUpdate
 {
     public static GameManager instance { get; private set; }
 
     public EventManager eventManager = new EventManager();
+    public UpdateManager updateManager = new UpdateManager();
 
     public bool Fishing { get; private set; }
 
@@ -20,29 +21,36 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        updateManager.SuscribeToUpdate(this);
     }
 
     private void Update()
     {
+        updateManager.OnUpdate();
+    }
+
+    public void OnUpdate()
+    {
         if (baiting)
         {
             var overlap = Physics.OverlapSphere(baitObject.transform.position, baitRadious).
-                Where(x=>x.GetComponent<Fish>()).
+                Where(x => x.GetComponent<Fish>()).
                 Select(x => x.GetComponent<Fish>()).
-                Where(x=> !fishOnBait.Contains(x));
+                Where(x => !fishOnBait.Contains(x)).
+                Where(x => x.InFishBait(baitObject.transform.position));
 
             foreach (var item in overlap)
             {
                 item.Move(baitObject.transform.position);
 
                 if (Vector3.Distance(item.transform.position, baitObject.transform.position) < captureRadious) fishOnBait.Add(item);
-                Debug.Log("atrapo a alguien?");
             }
         }
     }
 
     public void BaitFish(Fish _fish)
     {
+        updateManager.stopUpdate = true;
         Fishing = true;
         UIManager.instance.ActiveFishBar(true);
         FishingManager.instance.StartFishing(_fish);
@@ -51,6 +59,7 @@ public class GameManager : MonoBehaviour
 
     public void FishingOver(bool fishCaptured, Fish fishType = null)
     {
+        updateManager.stopUpdate = false;
         Fishing = false;
         UIManager.instance.ActiveFishBar(false);
         if (fishCaptured) UIManager.instance.AddFish();

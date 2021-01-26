@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 8904608857313596446}
   - component: {fileID: 7461793317175219123}
   - component: {fileID: 4033499257110295717}
-  m_Layer: 0
+  - component: {fileID: 7315164565901458023}
+  m_Layer: 8
   m_Name: MojarraFish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,6 +61,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPos: 0
   speedOutOfCombat: 4
+  viewAngle: 90
+  rotationSpeed: 5
+  moveModule: {fileID: 7315164565901458023}
   minSpeed: 3
   maxSpeed: 10
   barMaxPercentToGo: 0.639
@@ -67,6 +71,23 @@ MonoBehaviour:
   maxTimeMoving: 3
   minTimeIdle: 1
   maxTimeIdle: 3
+--- !u!114 &7315164565901458023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4033499257110295718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77a4a4672ed84bf44abf84da8d953f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spacingBetweenWaypoints: 2
+  timeToNextWaypoint: 1
+  mask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &4579726984280492103
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,7 +99,7 @@ GameObject:
   - component: {fileID: 5389883042920376407}
   - component: {fileID: 3408082547271749306}
   - component: {fileID: 5588251919317127700}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,6 +142,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

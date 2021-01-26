@@ -7,7 +7,7 @@ public abstract class MovementModule : MonoBehaviour
     protected float speed;
     protected float rotationSpeed;
 
-    protected Vector3[] myWaypoints;
+    [SerializeField] protected Vector3[] myWaypoints;
 
     protected abstract void SetWaypointsAbstract();
 

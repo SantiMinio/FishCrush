@@ -29,7 +29,7 @@ public abstract class Fish : MonoBehaviour, IUpdate
         currentPos = initialPos;
     }
 
-    public void Initialize()
+    public virtual void Initialize()
     {
         GameManager.instance.updateManager.SuscribeToUpdate(this);
         moveModule.SetWaypoints(speedOutOfCombat, rotationSpeed);

@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5406431007670193946}
-  - component: {fileID: 834662937492205995}
   - component: {fileID: 6276218753125664951}
   - component: {fileID: 4148257330807450996}
+  - component: {fileID: 5210850855762514762}
   m_Layer: 8
-  m_Name: TestFish
+  m_Name: EelFish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,24 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -60.000004, z: 0}
---- !u!114 &834662937492205995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 535322511545724834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd81610bb8f78dd49abc00c196f3eac0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPos: 0
-  speedOutOfCombat: 3
-  viewAngle: 90
-  rotationSpeed: 5
-  moveModule: {fileID: 4148257330807450996}
-  speed: 10
 --- !u!65 &6276218753125664951
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -77,11 +59,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77a4a4672ed84bf44abf84da8d953f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myWaypoints: []
   spacingBetweenWaypoints: 2
   timeToNextWaypoint: 1
   mask:
     serializedVersion: 2
     m_Bits: 1
+  index: 0
+--- !u!114 &5210850855762514762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535322511545724834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8862b4b7c87025b44878a4e0c3da8442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPos: 0
+  speedOutOfCombat: 3
+  viewAngle: 90
+  rotationSpeed: 5
+  moveModule: {fileID: 4148257330807450996}
+  minSpeed: 20
+  maxSpeed: 25
+  slownessToReach: 10
+  barMaxPercentToGo: 0.2
+  minTimeSlow: 1
+  maxTimeSlow: 2
 --- !u!1 &1088309414003266371
 GameObject:
   m_ObjectHideFlags: 0

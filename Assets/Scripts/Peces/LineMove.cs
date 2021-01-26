@@ -9,7 +9,7 @@ public class LineMove : MovementModule
     [SerializeField] LayerMask mask = 1 << 0;
 
     float timer;
-    int index;
+    [SerializeField] int index;
     bool inWaypont = false;
 
     public override void Move()
@@ -17,7 +17,7 @@ public class LineMove : MovementModule
         if (inWaypont)
         {
             timer += Time.deltaTime;
-            if (timer > timeToNextWaypoint)
+            if (timer >= timeToNextWaypoint)
             {
                 timer = 0;
                 inWaypont = false;
@@ -39,9 +39,11 @@ public class LineMove : MovementModule
 
     protected override void SetWaypointsAbstract()
     {
-        float x = Random.Range(-1, 1);
-        float z = Random.Range(-1, 1);
-        Vector3 dir = new Vector3(x, 0, z);
+        float[] sign = new float[2] { -1, 1 };
+
+        float x = Random.Range(0.5f, 1) * sign[Random.Range(0, 2)];
+        float z = Random.Range(0.5f, 1) * sign[Random.Range(0, 2)];
+        Vector3 dir = new Vector3(x, 0, z).normalized;
 
         RaycastHit hit;
         Vector3 initialWaypoint;

@@ -62,8 +62,11 @@ MonoBehaviour:
   currentPos: 0
   speedOutOfCombat: 4
   viewAngle: 90
-  rotationSpeed: 5
+  rotationSpeed: 20
+  minTimeInWater: 8
+  maxTimeInWater: 17
   moveModule: {fileID: 7315164565901458023}
+  myNodeSpawn: {fileID: 0}
   minSpeed: 3
   maxSpeed: 10
   barMaxPercentToGo: 0.639
@@ -84,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myWaypoints: []
-  spacingBetweenWaypoints: 2
+  spacingBetweenWaypoints: 5
   timeToNextWaypoint: 1
   mask:
     serializedVersion: 2

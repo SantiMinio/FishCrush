@@ -24,11 +24,6 @@ public abstract class Fish : MonoBehaviour, IUpdate
 
     public Node myNodeSpawn;
 
-    private void Start()
-    {
-        Initialize();
-    }
-
     public virtual void StartFishing(float _minPos, float _maxPos, float initialPos)
     {
         minPos = _minPos;
@@ -40,6 +35,7 @@ public abstract class Fish : MonoBehaviour, IUpdate
     {
         GameManager.instance.updateManager.SuscribeToUpdate(this);
         moveModule.SetWaypoints(speedOutOfCombat, rotationSpeed);
+        currentMaxTimer = Random.Range(minTimeInWater, maxTimeInWater);
     }
 
     public abstract void MoveInBattle();
@@ -59,6 +55,10 @@ public abstract class Fish : MonoBehaviour, IUpdate
         {
             if (!captured) moveModule.Move();
         }
+
+        timerToDespawn += Time.deltaTime;
+
+        if (timerToDespawn >= maxTimeInWater) GameManager.instance.ReturnFishToPool(this);
     }
 
     public void Move(Vector3 baitPos)
@@ -90,7 +90,6 @@ public abstract class Fish : MonoBehaviour, IUpdate
     public virtual void ReturnToPool()
     {
         GameManager.instance.updateManager.DesuscribeToUpdate(this);
-        GameManager.instance.RemoveToBait(this);
         timerToDespawn = 0;
         inBait = false;
         timerInBait = 0;

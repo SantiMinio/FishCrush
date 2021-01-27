@@ -63,4 +63,12 @@ public class MojarraFish : Fish
             }
         }
     }
+
+    public override void ReturnToPool()
+    {
+        base.ReturnToPool();
+        timer = 0;
+        moving = true;
+        dir = 1;
+    }
 }

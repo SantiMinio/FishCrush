@@ -26,9 +26,9 @@ public class LineMove : MovementModule
         else
         {
             transform.forward = Vector3.Lerp(transform.forward, (myWaypoints[index] - transform.position).normalized, Time.deltaTime * rotationSpeed);
-            transform.position += transform.forward * speed * Time.deltaTime;
+            transform.position += (myWaypoints[index] - transform.position).normalized * speed * Time.deltaTime;
 
-            if(Vector3.Distance(transform.position, myWaypoints[index]) < 0.2f)
+            if(Vector3.Distance(transform.position, myWaypoints[index]) < 0.5f)
             {
                 inWaypont = true;
                 if (index == 0) index = 1;
@@ -48,6 +48,8 @@ public class LineMove : MovementModule
         RaycastHit hit;
         Vector3 initialWaypoint;
         Vector3 secondWaypoint;
+        Debug.Log(transform.position);
+        Debug.Log(dir);
 
         if (Physics.Raycast(transform.position, dir, out hit, spacingBetweenWaypoints, mask))
         {

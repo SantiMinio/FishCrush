@@ -12,11 +12,16 @@ public class NodesMaker : MonoBehaviour
     [SerializeField] Transform centerPoint = null;
 
     [SerializeField] bool createNodes = false;
+    public FishSpawner spawner;
 
     private void Update()
     {
         if (!createNodes) return;
 
+        spawner.myNodes.Add(NodePosition.Up, new List<Node>());
+        spawner.myNodes.Add(NodePosition.Down, new List<Node>());
+        spawner.myNodes.Add(NodePosition.Right, new List<Node>());
+        spawner.myNodes.Add(NodePosition.Left, new List<Node>());
         createNodes = false;
 
         float total = nodesAmmount + nodesAmmount;
@@ -24,7 +29,7 @@ public class NodesMaker : MonoBehaviour
         var oldNodes = GetComponentsInChildren<Node>();
 
         for (int i = 0; i < oldNodes.Length; i++)
-            DestroyImmediate(oldNodes[i]);
+            DestroyImmediate(oldNodes[i].gameObject);
 
         Vector3 centerPointAdjust = new Vector3(centerPoint.position.x, 5, centerPoint.position.z);
 
@@ -44,9 +49,24 @@ public class NodesMaker : MonoBehaviour
                 {
                     if(hit.transform.gameObject.layer == 10)
                     {
+                        float upDown = Mathf.Abs(zPos - centerPointAdjust.z);
+                        float rightLeft = Mathf.Abs(xPos - centerPointAdjust.x);
                         var node = Instantiate(nodePrefab, transform);
                         node.transform.position = hit.point;
                         node.name = z + "" + x;
+
+                        if (rightLeft > upDown)
+                        {
+                            if (xPos - centerPointAdjust.x < -1) node.myPosition = NodePosition.Left;
+                            else node.myPosition = NodePosition.Right;
+                        }
+                        else
+                        {
+                            if (zPos - centerPointAdjust.z < -1) node.myPosition = NodePosition.Down;
+                            else node.myPosition = NodePosition.Up;
+                        }
+
+                        spawner.myNodes[node.myPosition].Add(node);
                     }
                 }
                 xPos -= spacingBetweenNodes;

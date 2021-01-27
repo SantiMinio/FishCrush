@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour, IUpdate
     [SerializeField] Bait baitObject = null;
     [SerializeField] float baitRadious = 7;
     [SerializeField] float captureRadious = 1;
+    [SerializeField] FishSpawner spawner = null;
     bool baiting;
     List<Fish> fishOnBait = new List<Fish>();
 
@@ -48,11 +49,6 @@ public class GameManager : MonoBehaviour, IUpdate
         }
     }
 
-    public void RemoveToBait(Fish f)
-    {
-        if (fishOnBait.Contains(f)) fishOnBait.Remove(f);
-    }
-
     public void BaitFish(Fish _fish)
     {
         updateManager.stopUpdate = true;
@@ -62,6 +58,12 @@ public class GameManager : MonoBehaviour, IUpdate
         eventManager.TriggerEvent(GameEvents.FishInBait);
     }
 
+    public void ReturnFishToPool(Fish f)
+    {
+        if (fishOnBait.Contains(f)) fishOnBait.Remove(f);
+        spawner.ReturnFish(f);
+    }
+
     public void FishingOver(bool fishCaptured, Fish fishType = null)
     {
         updateManager.stopUpdate = false;
@@ -69,6 +71,7 @@ public class GameManager : MonoBehaviour, IUpdate
         UIManager.instance.ActiveFishBar(false);
         if (fishCaptured) UIManager.instance.AddFish();
         baitObject.ReturnBait(() => { });
+        ReturnFishToPool(fishType);
         //aca se retorna;
         eventManager.TriggerEvent(GameEvents.FishingOver, fishCaptured);
     }

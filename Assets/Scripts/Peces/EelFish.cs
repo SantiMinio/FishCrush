@@ -88,4 +88,13 @@ public class EelFish : Fish
             }
         }
     }
+
+    public override void ReturnToPool()
+    {
+        base.ReturnToPool();
+        timer = 0;
+        moving = true;
+        inUp = false;
+        dir = 1;
+    }
 }

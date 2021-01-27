@@ -74,20 +74,28 @@ public class GameManager : MonoBehaviour, IUpdate
         baiting = true;
     }
 
-    public void GrabBait()
+    public bool GrabBait()
     {
         baiting = false;
+        bool result;
 
         if(fishOnBait.Count > 0)
+        {
             BaitFish(NeareastFish());
+            result = true;
+        }
         else
+        {
             baitObject.SetActive(false);
+            result = false;
+        }
 
         for (int i = 0; i < fishOnBait.Count; i++)
         {
             fishOnBait[i].FishCaptured(false);
         }
         fishOnBait.Clear();
+        return result;
     }
 
     Fish NeareastFish(int index = 0, Fish result = null)

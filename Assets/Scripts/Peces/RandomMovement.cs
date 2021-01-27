@@ -30,7 +30,6 @@ public class RandomMovement : MovementModule
         {
             transform.forward = Vector3.Lerp(transform.forward, (currentWaypoint - transform.position).normalized, Time.deltaTime * rotationSpeed);
             transform.position += transform.forward * speed * Time.deltaTime;
-            Debug.Log(currentWaypoint);
 
             if (Vector3.Distance(transform.position, myWaypoints[index]) < 0.5f)
             {

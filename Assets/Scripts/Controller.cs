@@ -21,6 +21,10 @@ public class Controller : MonoBehaviour
     {
         GameManager.instance.eventManager.SubscribeToEvent(GameEvents.FishInBait, Baiting);
         GameManager.instance.eventManager.SubscribeToEvent(GameEvents.FishingOver, FishingOver);
+        var animEvent = anim.GetComponent<AnimEvent>();
+        animEvent.Add_Callback("CastEvent", CastEvent);
+        animEvent.Add_Callback("PullEvent", PullEvent);
+        animEvent.Add_Callback("AnimOver", CanControl);
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -transform.up,out hit, 8000, 1 << 10))
@@ -38,9 +42,16 @@ public class Controller : MonoBehaviour
         fishingRoad = false;
     }
 
-    void FishingOver()
+    void FishingOver(params object[] param)
     {
         fishing = false;
+
+        if ((bool)param[0]) anim.SetBool("Captured", true);
+        else anim.SetBool("Captured", false);
+
+        inAnim = true;
+
+        anim.SetBool("Pull", false);
     }
 
     void Inputs()
@@ -98,10 +109,28 @@ public class Controller : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    GameManager.instance.GrabBait();
-                    fishingRoad = false;
+                    anim.SetBool("Pull", true);
+                    inAnim = true;
                 }
             }
         }
     }
+
+    void CastEvent()
+    {
+    }
+
+    void PullEvent()
+    {
+        if (!GameManager.instance.GrabBait())
+        {
+            anim.SetBool("Pull", false);
+            anim.SetBool("Captured", false);
+        }
+        else
+            inAnim = false;
+        fishingRoad = false;
+    }
+
+    void CanControl() => inAnim = false;
 }

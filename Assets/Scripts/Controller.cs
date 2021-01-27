@@ -6,6 +6,7 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     Vector3 startPos;
+    Vector3 trueDir;
     bool touchInTarget;
     bool fishing;
     bool fishingRoad;
@@ -99,8 +100,7 @@ public class Controller : MonoBehaviour
                         anim.SetBool("Casting", false);
                         touchInTarget = false;
                         fishingRoad = true;
-                        Vector3 trueDir = transform.forward * trueMultiplier;
-                        GameManager.instance.DropBait(transform.position + trueDir, transform.position);
+                        trueDir = transform.forward * trueMultiplier;
                         UIManager.instance.ActivateArrow(false);
                     }
                 }
@@ -118,6 +118,7 @@ public class Controller : MonoBehaviour
 
     void CastEvent()
     {
+        GameManager.instance.DropBait(transform.position + trueDir, transform.position);
     }
 
     void PullEvent()

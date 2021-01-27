@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour, IUpdate
 
     public bool Fishing { get; private set; }
 
-    [SerializeField] GameObject baitObject = null;
+    [SerializeField] Bait baitObject = null;
     [SerializeField] float baitRadious = 7;
     [SerializeField] float captureRadious = 1;
     bool baiting;
@@ -63,15 +63,14 @@ public class GameManager : MonoBehaviour, IUpdate
         Fishing = false;
         UIManager.instance.ActiveFishBar(false);
         if (fishCaptured) UIManager.instance.AddFish();
-        baitObject.SetActive(false);
+        baitObject.ReturnBait(() => { });
+        //aca se retorna;
         eventManager.TriggerEvent(GameEvents.FishingOver, fishCaptured);
     }
 
     public void DropBait(Vector3 pos, Vector3 startPos)
     {
-        baitObject.SetActive(true);
-        baitObject.transform.position = new Vector3(pos.x, baitObject.transform.position.y, pos.z);
-        baiting = true;
+        baitObject.GoToPos(new Vector3(pos.x, -1, pos.z), ()=>baiting = true);
     }
 
     public bool GrabBait()
@@ -86,7 +85,8 @@ public class GameManager : MonoBehaviour, IUpdate
         }
         else
         {
-            baitObject.SetActive(false);
+            baitObject.ReturnBait(() => { });
+            //aca se retorna;
             result = false;
         }
 

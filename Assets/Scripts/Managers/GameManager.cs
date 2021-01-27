@@ -48,6 +48,11 @@ public class GameManager : MonoBehaviour, IUpdate
         }
     }
 
+    public void RemoveToBait(Fish f)
+    {
+        if (fishOnBait.Contains(f)) fishOnBait.Remove(f);
+    }
+
     public void BaitFish(Fish _fish)
     {
         updateManager.stopUpdate = true;

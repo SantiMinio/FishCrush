@@ -7,6 +7,8 @@ public abstract class Fish : MonoBehaviour, IUpdate
     protected float minPos;
     protected float maxPos;
     public float currentPos;
+    float timerToDespawn;
+    float currentMaxTimer;
     bool inBait;
     bool captured;
     float timerInBait;
@@ -15,7 +17,12 @@ public abstract class Fish : MonoBehaviour, IUpdate
     [SerializeField] float viewAngle = 90;
     [SerializeField] float rotationSpeed = 5;
 
+    [SerializeField] float minTimeInWater = 8;
+    [SerializeField] float maxTimeInWater = 17;
+
     [SerializeField] MovementModule moveModule = null;
+
+    public Node myNodeSpawn;
 
     private void Start()
     {
@@ -83,6 +90,10 @@ public abstract class Fish : MonoBehaviour, IUpdate
     public virtual void ReturnToPool()
     {
         GameManager.instance.updateManager.DesuscribeToUpdate(this);
-        Destroy(this.gameObject);
+        GameManager.instance.RemoveToBait(this);
+        timerToDespawn = 0;
+        inBait = false;
+        timerInBait = 0;
+        captured = false;
     }
 }

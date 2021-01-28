@@ -62,7 +62,7 @@ public class FishSpawner : MonoBehaviour, IUpdate
         fishPerZone[pos] += 1;
         currentFishInScreen += 1;
         myNodes[pos].Remove(nodeToSpawn);
-
+        tempFish.Initialize();
         timer = 0;
         currentTime = UnityEngine.Random.Range(minTimeToSpawn, maxTimeToSpawn);
     }
@@ -97,7 +97,6 @@ public class FishSpawner : MonoBehaviour, IUpdate
     void ActivateObject(Fish f)
     {
         f.gameObject.SetActive(true);
-        f.Initialize();
     }
 
     void Desactivate(Fish f)

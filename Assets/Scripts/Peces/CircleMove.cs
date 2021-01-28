@@ -42,7 +42,7 @@ public class CircleMove : MovementModule
     protected override void SetWaypointsAbstract()
     {
         RaycastHit hit;
-
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, Random.Range(0, 360), transform.eulerAngles.z);
         myWaypoints = new Vector3[8];
         Vector3 diagonalOne = transform.right + transform.forward;
         Vector3 diagonalTwo = transform.right - transform.forward;

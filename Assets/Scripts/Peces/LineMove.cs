@@ -26,7 +26,7 @@ public class LineMove : MovementModule
         else
         {
             transform.forward = Vector3.Lerp(transform.forward, (myWaypoints[index] - transform.position).normalized, Time.deltaTime * rotationSpeed);
-            transform.position += (myWaypoints[index] - transform.position).normalized * speed * Time.deltaTime;
+            transform.position += transform.forward * speed * Time.deltaTime;
 
             if(Vector3.Distance(transform.position, myWaypoints[index]) < 0.5f)
             {
@@ -39,34 +39,30 @@ public class LineMove : MovementModule
 
     protected override void SetWaypointsAbstract()
     {
-        float[] sign = new float[2] { -1, 1 };
-
-        float x = Random.Range(0.5f, 1) * sign[Random.Range(0, 2)];
-        float z = Random.Range(0.5f, 1) * sign[Random.Range(0, 2)];
-        Vector3 dir = new Vector3(x, 0, z).normalized;
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, Random.Range(0, 360), transform.eulerAngles.z);
 
         RaycastHit hit;
         Vector3 initialWaypoint;
         Vector3 secondWaypoint;
-        Debug.Log(transform.position);
-        Debug.Log(dir);
 
-        if (Physics.Raycast(transform.position, dir, out hit, spacingBetweenWaypoints, mask))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, spacingBetweenWaypoints, mask))
         {
-            initialWaypoint = hit.point + dir * -1;
+            initialWaypoint = hit.point + transform.forward * -1;
+            Debug.Log("golpea?");
         }
         else
         {
-            initialWaypoint = transform.position + dir * spacingBetweenWaypoints;
+            initialWaypoint = transform.position + transform.forward * spacingBetweenWaypoints;
         }
 
-        if (Physics.Raycast(transform.position, -dir, out hit, spacingBetweenWaypoints, mask))
+        if (Physics.Raycast(transform.position, -transform.forward, out hit, spacingBetweenWaypoints, mask))
         {
-            secondWaypoint = hit.point + dir * 1;
+            Debug.Log("golpea?");
+            secondWaypoint = hit.point + transform.forward * 1;
         }
         else
         {
-            secondWaypoint = transform.position - dir * spacingBetweenWaypoints;
+            secondWaypoint = transform.position - transform.forward * spacingBetweenWaypoints;
         }
 
         myWaypoints = new Vector3[2] { initialWaypoint, secondWaypoint };

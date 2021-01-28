@@ -8256,8 +8256,9 @@ MonoBehaviour:
     m_keys:
     - {fileID: 4033499257110295717, guid: 72fb46b572ff08342b6fc9daabc3126c, type: 3}
     - {fileID: 5210850855762514762, guid: 27111b8cf01ec9a4ca39ce623d34c156, type: 3}
-    m_values: 0800000003000000
+    m_values: 0000000003000000
   maxFishToSpawn: 8
+  initialFishAmmount: 1
   minTimeToSpawn: 6
   maxTimeToSpawn: 12
 --- !u!1 &868256834
@@ -19304,6 +19305,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615255028763324495, guid: 88c0793772d026d459774894e3a625cd,
+        type: 3}
+      propertyPath: maxRange
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6615255028973381451, guid: 88c0793772d026d459774894e3a625cd,
         type: 3}

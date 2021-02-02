@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
+using System;
 
 public class Controller : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class Controller : MonoBehaviour
     [SerializeField] float minRange = 1;
     [SerializeField] float maxRange = 6;
 
+    Func<bool> TouchDown;
+    Func<bool> TouchUp;
+    Func<bool> Touching;
+    Func<Vector3> TouchPos;
+
     private void Start()
     {
         GameManager.instance.eventManager.SubscribeToEvent(GameEvents.FishInBait, Baiting);
@@ -30,6 +36,21 @@ public class Controller : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, -transform.up,out hit, 8000, 1 << 10))
             startPos = hit.point;
+
+        if(Application.platform == RuntimePlatform.Android)
+        {
+            TouchDown = ()=> Input.GetTouch(0).phase == TouchPhase.Began;
+            TouchUp = () => Input.GetTouch(0).phase == TouchPhase.Ended;
+            Touching = () => Input.GetTouch(0).phase == TouchPhase.Stationary || Input.GetTouch(0).phase == TouchPhase.Moved;
+            TouchPos = () => Input.GetTouch(0).position;
+        }
+        else
+        {
+            TouchDown = () => Input.GetKeyDown(KeyCode.Mouse0);
+            TouchUp = () => Input.GetKeyUp(KeyCode.Mouse0);
+            Touching = () => Input.GetKey(KeyCode.Mouse0);
+            TouchPos = () => Input.mousePosition;
+        }
     }
 
     private void Update()
@@ -60,16 +81,16 @@ public class Controller : MonoBehaviour
         if (inAnim) return;
         if (fishing)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0)) FishingManager.instance.moveBar = true;
-            else if (Input.GetKeyUp(KeyCode.Mouse0)) FishingManager.instance.moveBar = false;
+            if (TouchDown()) FishingManager.instance.moveBar = true;
+            else if (TouchUp()) FishingManager.instance.moveBar = false;
         }
         else
         {
             if (!fishingRoad)
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (TouchDown())
                 {
-                    var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    var ray = Camera.main.ScreenPointToRay(TouchPos());
 
                     if(Physics.Raycast(ray, 8000))
                     {
@@ -81,7 +102,7 @@ public class Controller : MonoBehaviour
 
                 if (touchInTarget)
                 {
-                    var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    var ray = Camera.main.ScreenPointToRay(TouchPos());
                     Vector3 pos = Vector3.zero;
                     RaycastHit hit;
                     if (Physics.Raycast(ray, out hit, 8000, 1<<10))
@@ -95,7 +116,7 @@ public class Controller : MonoBehaviour
 
                     UIManager.instance.UpdateArrowScale(trueMultiplier / 2);
 
-                    if (Input.GetKeyUp(KeyCode.Mouse0))
+                    if (TouchUp())
                     {
                         anim.SetBool("Casting", false);
                         touchInTarget = false;
@@ -107,7 +128,7 @@ public class Controller : MonoBehaviour
             }
             else
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
+                if (TouchDown())
                 {
                     anim.SetBool("Pull", true);
                     inAnim = true;

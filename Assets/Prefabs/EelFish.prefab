@@ -86,6 +86,7 @@ MonoBehaviour:
   minTimeInWater: 8
   maxTimeInWater: 17
   moveModule: {fileID: 5537901734533238642}
+  fadeSpeed: 3
   myNodeSpawn: {fileID: 0}
   minSpeed: 20
   maxSpeed: 25

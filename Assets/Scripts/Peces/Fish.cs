@@ -21,6 +21,7 @@ public abstract class Fish : MonoBehaviour, IUpdate
     [SerializeField] float maxTimeInWater = 17;
 
     [SerializeField] MovementModule moveModule = null;
+    [SerializeField] float fadeSpeed = 5;
 
     public Node myNodeSpawn;
 
@@ -36,12 +37,14 @@ public abstract class Fish : MonoBehaviour, IUpdate
         GameManager.instance.updateManager.SuscribeToUpdate(this);
         moveModule.SetWaypoints(speedOutOfCombat, rotationSpeed);
         currentMaxTimer = Random.Range(minTimeInWater, maxTimeInWater);
+        StartCoroutine(Appear());
     }
 
     public abstract void MoveInBattle();
 
     public void OnUpdate()
     {
+        if (timerToDespawn >= maxTimeInWater) return;
         if (inBait)
         {
             timerInBait += Time.deltaTime;
@@ -54,11 +57,11 @@ public abstract class Fish : MonoBehaviour, IUpdate
         else
         {
             if (!captured) moveModule.Move();
+
+            timerToDespawn += Time.deltaTime;
+
+            if (timerToDespawn >= maxTimeInWater) StartCoroutine(Dissappear());
         }
-
-        timerToDespawn += Time.deltaTime;
-
-        if (timerToDespawn >= maxTimeInWater) GameManager.instance.ReturnFishToPool(this);
     }
 
     public void Move(Vector3 baitPos)
@@ -68,6 +71,7 @@ public abstract class Fish : MonoBehaviour, IUpdate
         inBait = true;
         timerInBait = 0;
     }
+
 
     public void FishCaptured(bool b)
     {
@@ -94,5 +98,40 @@ public abstract class Fish : MonoBehaviour, IUpdate
         inBait = false;
         timerInBait = 0;
         captured = false;
+    }
+
+    IEnumerator Dissappear()
+    {
+        float currentFade = 1;
+        Material mat = GetComponentInChildren<SkinnedMeshRenderer>().material;
+        Color myColor = mat.color;
+        GameManager.instance.updateManager.DesuscribeToUpdate(this);
+        timerToDespawn = 0;
+        inBait = false;
+        captured = false;
+        while (currentFade>0)
+        {
+            currentFade -= fadeSpeed * Time.deltaTime;
+            if (currentFade < 0) currentFade = 0;
+            mat.color = new Color(myColor.r, myColor.g, myColor.b, currentFade);
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        GameManager.instance.ReturnFishToPool(this);
+    }
+
+    IEnumerator Appear()
+    {
+        float currentFade = 0;
+        Material mat = GetComponentInChildren<SkinnedMeshRenderer>().material;
+        Color myColor = mat.color;
+        mat.color = new Color(myColor.r, myColor.g, myColor.b, 0);
+        while (currentFade < 1)
+        {
+            currentFade += fadeSpeed * Time.deltaTime;
+            if (currentFade > 1) currentFade = 1;
+            mat.color = new Color(myColor.r, myColor.g, myColor.b, currentFade);
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 }

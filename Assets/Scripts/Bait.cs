@@ -32,7 +32,8 @@ public class Bait : MonoBehaviour, IUpdate
         {
             currentLerping += currentSpeed * Time.deltaTime;
             if (currentSpeed < maxSpeed) currentSpeed = Mathf.Clamp(currentSpeed + Time.deltaTime * acceleration, minSpeed, maxSpeed);
-            transform.position = Vector3.Lerp(targetPos, myInitialPos, currentLerping);
+            transform.position = Vector3.Lerp(targetPos, myParent.position, currentLerping);
+            transform.rotation = Quaternion.Lerp(transform.rotation, myParent.rotation, currentLerping);
 
             if (currentLerping >= 1)
             {
